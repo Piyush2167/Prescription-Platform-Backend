@@ -42,7 +42,7 @@ const createConsultation = async (req, res) => {
     res.status(201).json(consultation);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error while creating consultation' });
+    res.status(500).json({ message: 'Server error while creating consultation: ' + error.message, stack: error.stack });
   }
 };
 
