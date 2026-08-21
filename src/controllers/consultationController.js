@@ -75,7 +75,12 @@ const getConsultationById = async (req, res) => {
       .populate('doctor', 'name specialty');
 
     if (!consultation) return res.status(404).json({ message: 'Consultation not found' });
-    if (consultation.doctor._id.toString() !== req.user._id.toString()) {
+    
+    const userId = req.user._id.toString();
+    const isDoctor = consultation.doctor._id.toString() === userId;
+    const isPatient = consultation.patient._id.toString() === userId;
+
+    if (!isDoctor && !isPatient) {
       return res.status(403).json({ message: 'Not authorized for this consultation' });
     }
 
